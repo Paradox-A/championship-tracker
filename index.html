@@ -1,0 +1,2735 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EFL Championship 2026-27 Tracker</title>
+<style>
+  :root {
+    --bg: #f6f1e7; --card: #ffffff; --text: #1a1a1a; --muted: #6b6b6b; --border: #e2ddd0;
+    --prom: #d6f5d6; --prom-text: #1a6b1a; --playoff: #d6e8ff; --playoff-text: #1a4a8a;
+    --rel: #ffd6d6; --rel-text: #8a1a1a;
+    --accent: #1a4a8a; --tab-bg: #eee6d6; --tab-active: #1a4a8a; --tab-active-text: #ffffff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #16131a; --card: #211d29; --text: #f0ede4; --muted: #a39d8f; --border: #3a3444;
+      --prom: #143d14; --prom-text: #8fe08f; --playoff: #143355; --playoff-text: #9cc4f5;
+      --rel: #551a1a; --rel-text: #f5a3a3;
+      --accent: #7aa8f5; --tab-bg: #2a2534; --tab-active: #7aa8f5; --tab-active-text: #16131a;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #16131a; --card: #211d29; --text: #f0ede4; --muted: #a39d8f; --border: #3a3444;
+    --prom: #143d14; --prom-text: #8fe08f; --playoff: #143355; --playoff-text: #9cc4f5;
+    --rel: #551a1a; --rel-text: #f5a3a3;
+    --accent: #7aa8f5; --tab-bg: #2a2534; --tab-active: #7aa8f5; --tab-active-text: #16131a;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 24px 16px 60px; }
+  .wrap { max-width: 940px; margin: 0 auto; }
+  h1 { font-size: 1.6rem; margin-bottom: 4px; color: var(--accent); }
+  .updated { color: var(--muted); font-size: 0.85rem; margin-bottom: 18px; }
+  .tabs { display: flex; gap: 6px; margin-bottom: 20px; flex-wrap: wrap; }
+  .tab-btn {
+    background: var(--tab-bg); color: var(--text); border: none; border-radius: 8px;
+    padding: 10px 16px; font-size: 0.9rem; font-weight: 600; cursor: pointer;
+  }
+  .tab-btn.active { background: var(--tab-active); color: var(--tab-active-text); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 20px; overflow-x: auto; }
+  h2 { font-size: 1.1rem; margin-top: 0; }
+  .intro { font-size: 0.88rem; color: var(--muted); margin-bottom: 16px; line-height: 1.5; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.85rem; white-space: nowrap; }
+  th, td { padding: 6px 8px; text-align: center; border-bottom: 1px solid var(--border); }
+  th { color: var(--muted); font-weight: 600; font-size: 0.72rem; text-transform: uppercase; }
+  td.team, th.team { text-align: left; }
+  .crest { width: 16px; height: 16px; vertical-align: middle; margin-right: 6px; }
+  .pos { font-weight: 700; } .pts { font-weight: 700; }
+  tr.prom { background: var(--prom); color: var(--prom-text); }
+  tr.playoff { background: var(--playoff); color: var(--playoff-text); }
+  tr.rel { background: var(--rel); color: var(--rel-text); }
+  .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 0.78rem; margin-top: 10px; color: var(--muted); }
+  .legend span { display: inline-flex; align-items: center; gap: 5px; }
+  .dot { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+  .dot.prom { background: var(--prom); } .dot.playoff { background: var(--playoff); }
+  .dot.rel { background: var(--rel); }
+  .note { color: var(--muted); font-size: 0.8rem; margin-top: 8px; }
+  .explainer { background: var(--tab-bg); border-radius: 8px; padding: 10px 14px; font-size: 0.82rem; color: var(--text); margin-bottom: 12px; line-height: 1.5; }
+  .explainer b { color: var(--accent); }
+  footer { text-align: center; color: var(--muted); font-size: 0.75rem; margin-top: 30px; }
+  details.stat-accordion { border: 1px solid var(--border); border-radius: 10px; margin-bottom: 12px; overflow: hidden; }
+  details.stat-accordion summary {
+    cursor: pointer; padding: 14px 16px; font-weight: 700; font-size: 0.98rem;
+    list-style: none; display: flex; justify-content: space-between; align-items: center;
+    background: var(--card);
+  }
+  details.stat-accordion summary::-webkit-details-marker { display: none; }
+  details.stat-accordion summary::after { content: "+"; font-size: 1.2rem; color: var(--muted); }
+  details.stat-accordion[open] summary::after { content: "−"; }
+  details.stat-accordion summary .sub { font-weight: 400; font-size: 0.78rem; color: var(--muted); margin-top: 2px; display: block; }
+  details.stat-accordion .accordion-body { padding: 0 16px 16px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>EFL Championship 2026-27 Tracker</h1>
+  <div class="updated">Matchday 2 · Last updated August 23, 2026 02:54 UTC</div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('table')">League Table</button>
+    <button class="tab-btn" onclick="showTab('club')">Club Stats</button>
+    <button class="tab-btn" onclick="showTab('player')">Player Stats</button>
+  </div>
+
+  <div id="tab-table" class="tab-panel active">
+    <div class="explainer">
+      <b>New to the Championship?</b> This is the second tier of English football, one level below the Premier League. 24 clubs play 46 games each. The top 2 go straight up to the Premier League; teams finishing 3rd-6th enter the <b>play-offs</b> for a third promotion spot; the bottom 3 are relegated down to League One. It's widely considered one of the most competitive and financially high-stakes leagues in the world, since promotion to the Premier League is worth well over £100m to a club.
+    </div>
+    <div class="card">
+      <h2>League Table</h2>
+      <table>
+        <thead><tr><th>#</th><th class="team">Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Form</th></tr></thead>
+        <tbody>
+    <tr class="prom">
+      <td class="pos">1</td>
+      <td class="team"><img src="https://crests.football-data.org/384.png" alt="" class="crest"> Millwall</td>
+      <td>2</td><td>2</td><td>0</td><td>0</td>
+      <td>5</td><td>0</td><td>+5</td>
+      <td class="pts">6</td><td class="form">—</td>
+    </tr>
+    <tr class="prom">
+      <td class="pos">2</td>
+      <td class="team"><img src="https://crests.football-data.org/348.png" alt="" class="crest"> Charlton</td>
+      <td>2</td><td>2</td><td>0</td><td>0</td>
+      <td>4</td><td>2</td><td>+2</td>
+      <td class="pts">6</td><td class="form">—</td>
+    </tr>
+    <tr class="playoff">
+      <td class="pos">3</td>
+      <td class="team"><img src="https://crests.football-data.org/76.png" alt="" class="crest"> Wolverhampton</td>
+      <td>2</td><td>1</td><td>1</td><td>0</td>
+      <td>5</td><td>3</td><td>+2</td>
+      <td class="pts">4</td><td class="form">—</td>
+    </tr>
+    <tr class="playoff">
+      <td class="pos">4</td>
+      <td class="team"><img src="https://crests.football-data.org/69.png" alt="" class="crest"> QPR</td>
+      <td>2</td><td>1</td><td>1</td><td>0</td>
+      <td>3</td><td>1</td><td>+2</td>
+      <td class="pts">4</td><td class="form">—</td>
+    </tr>
+    <tr class="playoff">
+      <td class="pos">5</td>
+      <td class="team"><img src="https://crests.football-data.org/59.png" alt="" class="crest"> Blackburn</td>
+      <td>2</td><td>1</td><td>1</td><td>0</td>
+      <td>4</td><td>3</td><td>+1</td>
+      <td class="pts">4</td><td class="form">—</td>
+    </tr>
+    <tr class="playoff">
+      <td class="pos">6</td>
+      <td class="team"><img src="https://crests.football-data.org/346.png" alt="" class="crest"> Watford</td>
+      <td>2</td><td>1</td><td>1</td><td>0</td>
+      <td>3</td><td>2</td><td>+1</td>
+      <td class="pts">4</td><td class="form">—</td>
+    </tr>
+    <tr class="">
+      <td class="pos">7</td>
+      <td class="team"><img src="https://crests.football-data.org/60.png" alt="" class="crest"> Bolton</td>
+      <td>2</td><td>1</td><td>1</td><td>0</td>
+      <td>2</td><td>1</td><td>+1</td>
+      <td class="pts">4</td><td class="form">—</td>
+    </tr>
+    <tr class="">
+      <td class="pos">7</td>
+      <td class="team"><img src="https://crests.football-data.org/72.png" alt="" class="crest"> Swansea</td>
+      <td>2</td><td>1</td><td>1</td><td>0</td>
+      <td>2</td><td>1</td><td>+1</td>
+      <td class="pts">4</td><td class="form">—</td>
+    </tr>
+    <tr class="">
+      <td class="pos">9</td>
+      <td class="team"><img src="https://crests.football-data.org/340.png" alt="" class="crest"> Southampton</td>
+      <td>2</td><td>1</td><td>0</td><td>1</td>
+      <td>4</td><td>3</td><td>+1</td>
+      <td class="pts">3</td><td class="form">—</td>
+    </tr>
+    <tr class="">
+      <td class="pos">10</td>
+      <td class="team"><img src="https://crests.football-data.org/74.png" alt="" class="crest"> West Brom</td>
+      <td>1</td><td>1</td><td>0</td><td>0</td>
+      <td>2</td><td>1</td><td>+1</td>
+      <td class="pts">3</td><td class="form">—</td>
+    </tr>
+    <tr class="">
+      <td class="pos">11</td>
+      <td class="team"><img src="https://crests.football-data.org/325.png" alt="" class="crest"> Portsmouth</td>
+      <td>2</td><td>1</td><td>0</td><td>1</td>
+      <td>4</td><td>4</td><td>0</td>
+      <td class="pts">3</td><td class="form">—</td>
+    </tr>
+    <tr class="">
+      <td class="pos">12</td>
+      <td class="team"><img src="https://crests.football-data.org/343.png" alt="" class="crest"> Middlesbrough</td>
+      <td>2</td><td>1</td><td>0</td><td>1</td>
+      <td>3</td><td>3</td><td>0</td>
+      <td class="pts">3</td><td class="form">—</td>
+    </tr>
+    <tr class="">
+      <td class="pos">13</td>
+      <td class="team"><img src="https://crests.football-data.org/715.png" alt="" class="crest"> Cardiff</td>
+      <td>2</td><td>0</td><td>2</td><td>0</td>
+      <td>3</td><td>3</td><td>0</td>
+      <td class="pts">2</td><td class="form">—</td>
+    </tr>
+    <tr class="">
+      <td class="pos">14</td>
+      <td class="team"><img src="https://crests.football-data.org/332.png" alt="" class="crest"> Birmingham</td>
+      <td>2</td><td>0</td><td>2</td><td>0</td>
+      <td>2</td><td>2</td><td>0</td>
+      <td class="pts">2</td><td class="form">—</td>
+    </tr>
+    <tr class="">
+      <td class="pos">14</td>
+      <td class="team"><img src="https://crests.football-data.org/404.png" alt="" class="crest"> Wrexham</td>
+      <td>2</td><td>0</td><td>2</td><td>0</td>
+      <td>2</td><td>2</td><td>0</td>
+      <td class="pts">2</td><td class="form">—</td>
+    </tr>
+    <tr class="">
+      <td class="pos">16</td>
+      <td class="team"><img src="https://crests.football-data.org/356.png" alt="" class="crest"> Sheffield Utd</td>
+      <td>2</td><td>0</td><td>2</td><td>0</td>
+      <td>0</td><td>0</td><td>0</td>
+      <td class="pts">2</td><td class="form">—</td>
+    </tr>
+    <tr class="">
+      <td class="pos">17</td>
+      <td class="team"><img src="https://crests.football-data.org/328.png" alt="" class="crest"> Burnley</td>
+      <td>1</td><td>0</td><td>1</td><td>0</td>
+      <td>2</td><td>2</td><td>0</td>
+      <td class="pts">1</td><td class="form">—</td>
+    </tr>
+    <tr class="">
+      <td class="pos">18</td>
+      <td class="team"><img src="https://crests.football-data.org/342.png" alt="" class="crest"> Derby County</td>
+      <td>2</td><td>0</td><td>1</td><td>1</td>
+      <td>3</td><td>4</td><td>-1</td>
+      <td class="pts">1</td><td class="form">—</td>
+    </tr>
+    <tr class="">
+      <td class="pos">18</td>
+      <td class="team"><img src="https://crests.football-data.org/563.png" alt="" class="crest"> West Ham</td>
+      <td>2</td><td>0</td><td>1</td><td>1</td>
+      <td>3</td><td>4</td><td>-1</td>
+      <td class="pts">1</td><td class="form">—</td>
+    </tr>
+    <tr class="">
+      <td class="pos">20</td>
+      <td class="team"><img src="https://crests.football-data.org/387.png" alt="" class="crest"> Bristol City</td>
+      <td>2</td><td>0</td><td>1</td><td>1</td>
+      <td>2</td><td>4</td><td>-2</td>
+      <td class="pts">1</td><td class="form">—</td>
+    </tr>
+    <tr class="">
+      <td class="pos">21</td>
+      <td class="team"><img src="https://crests.football-data.org/1126.png" alt="" class="crest"> Lincoln City</td>
+      <td>2</td><td>0</td><td>0</td><td>2</td>
+      <td>2</td><td>5</td><td>-3</td>
+      <td class="pts">0</td><td class="form">—</td>
+    </tr>
+    <tr class="">
+      <td class="pos">21</td>
+      <td class="team"><img src="https://crests.football-data.org/1081.png" alt="" class="crest"> Preston NE</td>
+      <td>2</td><td>0</td><td>0</td><td>2</td>
+      <td>2</td><td>5</td><td>-3</td>
+      <td class="pts">0</td><td class="form">—</td>
+    </tr>
+    <tr class="">
+      <td class="pos">21</td>
+      <td class="team"><img src="https://crests.football-data.org/70.png" alt="" class="crest"> Stoke</td>
+      <td>2</td><td>0</td><td>0</td><td>2</td>
+      <td>2</td><td>5</td><td>-3</td>
+      <td class="pts">0</td><td class="form">—</td>
+    </tr>
+    <tr class="rel">
+      <td class="pos">24</td>
+      <td class="team"><img src="https://crests.football-data.org/68.png" alt="" class="crest"> Norwich</td>
+      <td>2</td><td>0</td><td>0</td><td>2</td>
+      <td>1</td><td>5</td><td>-4</td>
+      <td class="pts">0</td><td class="form">—</td>
+    </tr></tbody>
+      </table>
+      <div class="note"><b>P</b> Played &nbsp;·&nbsp; <b>W</b> Won &nbsp;·&nbsp; <b>D</b> Drawn &nbsp;·&nbsp; <b>L</b> Lost &nbsp;·&nbsp; <b>GF</b> Goals For &nbsp;·&nbsp; <b>GA</b> Goals Against &nbsp;·&nbsp; <b>GD</b> Goal Difference (GF minus GA — the first tiebreaker when teams are level on points) &nbsp;·&nbsp; <b>Pts</b> Points (3 for a win, 1 for a draw, 0 for a loss) &nbsp;·&nbsp; <b>Form</b> results of the last 5 games, oldest to newest</div>
+      <div class="legend">
+        <span><span class="dot prom"></span>Automatic Promotion (1-2)</span>
+        <span><span class="dot playoff"></span>Play-offs (3-6)</span>
+        <span><span class="dot rel"></span>Relegation (22-24)</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Promotion Race</h2>
+      <div class="explainer">Finishing <b>1st or 2nd</b> means automatic promotion to the Premier League — no extra games needed. Finishing <b>3rd-6th</b> means the play-offs: two single-leg semi-finals (3rd vs 6th, 4th vs 5th), then a final at Wembley Stadium for the last promotion spot. The play-off final is sometimes called the "richest game in football" because of what promotion is worth.</div>
+      <table>
+        <thead><tr><th>#</th><th class="team">Team</th><th>Status</th><th>Pts</th><th>Games Left</th><th>Gap</th></tr></thead>
+        <tbody>
+    <tr class="prom">
+      <td class="pos">1</td>
+      <td class="team"><img src="https://crests.football-data.org/384.png" alt="" class="crest"> Millwall</td>
+      <td>Automatic Promotion</td><td>6</td><td>44</td>
+      <td>—</td>
+    </tr>
+    <tr class="prom">
+      <td class="pos">2</td>
+      <td class="team"><img src="https://crests.football-data.org/348.png" alt="" class="crest"> Charlton</td>
+      <td>Automatic Promotion</td><td>6</td><td>44</td>
+      <td>—</td>
+    </tr>
+    <tr class="playoff">
+      <td class="pos">3</td>
+      <td class="team"><img src="https://crests.football-data.org/76.png" alt="" class="crest"> Wolverhampton</td>
+      <td>Play-offs</td><td>4</td><td>44</td>
+      <td>2 pt behind automatic promotion</td>
+    </tr>
+    <tr class="playoff">
+      <td class="pos">4</td>
+      <td class="team"><img src="https://crests.football-data.org/69.png" alt="" class="crest"> QPR</td>
+      <td>Play-offs</td><td>4</td><td>44</td>
+      <td>2 pt behind automatic promotion</td>
+    </tr>
+    <tr class="playoff">
+      <td class="pos">5</td>
+      <td class="team"><img src="https://crests.football-data.org/59.png" alt="" class="crest"> Blackburn</td>
+      <td>Play-offs</td><td>4</td><td>44</td>
+      <td>2 pt behind automatic promotion</td>
+    </tr>
+    <tr class="playoff">
+      <td class="pos">6</td>
+      <td class="team"><img src="https://crests.football-data.org/346.png" alt="" class="crest"> Watford</td>
+      <td>Play-offs</td><td>4</td><td>44</td>
+      <td>2 pt behind automatic promotion</td>
+    </tr>
+    <tr class="">
+      <td class="pos">7</td>
+      <td class="team"><img src="https://crests.football-data.org/60.png" alt="" class="crest"> Bolton</td>
+      <td>Chasing pack</td><td>4</td><td>44</td>
+      <td>Level with 6th</td>
+    </tr>
+    <tr class="">
+      <td class="pos">7</td>
+      <td class="team"><img src="https://crests.football-data.org/72.png" alt="" class="crest"> Swansea</td>
+      <td>Chasing pack</td><td>4</td><td>44</td>
+      <td>Level with 6th</td>
+    </tr></tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>Relegation Watch</h2>
+      <table>
+        <thead><tr><th>#</th><th class="team">Team</th><th>Pts</th><th>Games Left</th><th>What it takes to stay up</th></tr></thead>
+        <tbody>
+    <tr class="">
+      <td class="pos">18</td>
+      <td class="team"><img src="https://crests.football-data.org/563.png" alt="" class="crest"> West Ham</td>
+      <td>1</td><td>44</td><td>Needs 49 pts from 44 games (1.11 pts/game — above league-average pace)</td>
+    </tr>
+    <tr class="">
+      <td class="pos">20</td>
+      <td class="team"><img src="https://crests.football-data.org/387.png" alt="" class="crest"> Bristol City</td>
+      <td>1</td><td>44</td><td>Needs 49 pts from 44 games (1.11 pts/game — above league-average pace)</td>
+    </tr>
+    <tr class="">
+      <td class="pos">21</td>
+      <td class="team"><img src="https://crests.football-data.org/1126.png" alt="" class="crest"> Lincoln City</td>
+      <td>0</td><td>44</td><td>Needs 50 pts from 44 games (1.14 pts/game — above league-average pace)</td>
+    </tr>
+    <tr class="">
+      <td class="pos">21</td>
+      <td class="team"><img src="https://crests.football-data.org/1081.png" alt="" class="crest"> Preston NE</td>
+      <td>0</td><td>44</td><td>Needs 50 pts from 44 games (1.14 pts/game — above league-average pace)</td>
+    </tr>
+    <tr class="">
+      <td class="pos">21</td>
+      <td class="team"><img src="https://crests.football-data.org/70.png" alt="" class="crest"> Stoke</td>
+      <td>0</td><td>44</td><td>Needs 50 pts from 44 games (1.14 pts/game — above league-average pace)</td>
+    </tr>
+    <tr class="rel">
+      <td class="pos">24</td>
+      <td class="team"><img src="https://crests.football-data.org/68.png" alt="" class="crest"> Norwich</td>
+      <td>0</td><td>44</td><td>Needs 50 pts from 44 games (1.14 pts/game — above league-average pace)</td>
+    </tr></tbody>
+      </table>
+      <div class="note">"Safety" modeled as ~50 points, a rough historical Championship survival benchmark (slightly higher than the Premier League's, since teams play 46 games instead of 38). Bottom 3 (22nd-24th) are relegated to League One.</div>
+    </div>
+  </div>
+
+  <div id="tab-club" class="tab-panel">
+    <div class="explainer">
+      <b>New to the Championship?</b> The table tells you <i>where</i> a team stands, but not <i>how</i> they got there. These stats show the underlying strengths and weaknesses — a team can have a good record while quietly being fragile defensively, or vice versa.
+    </div>
+
+    <div class="card">
+      <h2>Defensive Strength: Clean Sheets</h2>
+      <div class="explainer">A <b>clean sheet</b> is a game where a team doesn't concede at all. It's the single clearest sign of defensive solidity — Championship promotion winners are almost always among the league's clean-sheet leaders, because a stingy defense is the most reliable way to grind out points over a brutal 46-game season.</div>
+      <table>
+        <thead><tr><th class="team">Team</th><th>Played</th><th>Clean Sheets</th><th>Goals Conceded / Game</th><th>Failed to Score</th></tr></thead>
+        <tbody>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/384.png" alt="" class="crest"> Millwall</td>
+      <td>2</td><td>2</td>
+      <td>0.00</td><td>0</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/356.png" alt="" class="crest"> Sheffield Utd</td>
+      <td>2</td><td>2</td>
+      <td>0.00</td><td>2</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/60.png" alt="" class="crest"> Bolton</td>
+      <td>2</td><td>1</td>
+      <td>0.50</td><td>1</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/72.png" alt="" class="crest"> Swansea</td>
+      <td>2</td><td>1</td>
+      <td>0.50</td><td>1</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/69.png" alt="" class="crest"> QPR</td>
+      <td>2</td><td>1</td>
+      <td>0.50</td><td>1</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/332.png" alt="" class="crest"> Birmingham</td>
+      <td>2</td><td>1</td>
+      <td>1.00</td><td>1</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/74.png" alt="" class="crest"> West Brom</td>
+      <td>1</td><td>0</td>
+      <td>1.00</td><td>0</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/348.png" alt="" class="crest"> Charlton</td>
+      <td>2</td><td>0</td>
+      <td>1.00</td><td>0</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/346.png" alt="" class="crest"> Watford</td>
+      <td>2</td><td>0</td>
+      <td>1.00</td><td>0</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/328.png" alt="" class="crest"> Burnley</td>
+      <td>1</td><td>0</td>
+      <td>2.00</td><td>0</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/404.png" alt="" class="crest"> Wrexham</td>
+      <td>2</td><td>0</td>
+      <td>1.00</td><td>0</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/76.png" alt="" class="crest"> Wolverhampton</td>
+      <td>2</td><td>0</td>
+      <td>1.50</td><td>0</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/59.png" alt="" class="crest"> Blackburn</td>
+      <td>2</td><td>0</td>
+      <td>1.50</td><td>0</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/343.png" alt="" class="crest"> Middlesbrough</td>
+      <td>2</td><td>0</td>
+      <td>1.50</td><td>0</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/340.png" alt="" class="crest"> Southampton</td>
+      <td>2</td><td>0</td>
+      <td>1.50</td><td>0</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/715.png" alt="" class="crest"> Cardiff</td>
+      <td>2</td><td>0</td>
+      <td>1.50</td><td>0</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/387.png" alt="" class="crest"> Bristol City</td>
+      <td>2</td><td>0</td>
+      <td>2.00</td><td>1</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/342.png" alt="" class="crest"> Derby County</td>
+      <td>2</td><td>0</td>
+      <td>2.00</td><td>0</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/325.png" alt="" class="crest"> Portsmouth</td>
+      <td>2</td><td>0</td>
+      <td>2.00</td><td>0</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/563.png" alt="" class="crest"> West Ham</td>
+      <td>2</td><td>0</td>
+      <td>2.00</td><td>0</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/1081.png" alt="" class="crest"> Preston NE</td>
+      <td>2</td><td>0</td>
+      <td>2.50</td><td>0</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/68.png" alt="" class="crest"> Norwich</td>
+      <td>2</td><td>0</td>
+      <td>2.50</td><td>1</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/1126.png" alt="" class="crest"> Lincoln City</td>
+      <td>2</td><td>0</td>
+      <td>2.50</td><td>0</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/70.png" alt="" class="crest"> Stoke</td>
+      <td>2</td><td>0</td>
+      <td>2.50</td><td>0</td>
+    </tr></tbody>
+      </table>
+      <div class="note"><b>Failed to Score</b> counts games where a team didn't score at all — a blunt but telling sign of attacking struggles.</div>
+    </div>
+
+    <div class="card">
+      <h2>Home Fortress vs. Road Warriors</h2>
+      <div class="explainer">Some teams are much stronger at home than away (or the reverse) — this is one of the oldest storylines in football, and it matters more in the Championship than almost any other league because of the sheer number of games. <b>Points per game (PPG)</b> at home vs. away shows exactly how lopsided that split is. <b>Form</b> is the last 5 results (most recent last) — a better read on momentum than the season-long record.</div>
+      <table>
+        <thead><tr><th class="team">Team</th><th>Form (last 5)</th><th>Home Record</th><th>Away Record</th></tr></thead>
+        <tbody>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/384.png" alt="" class="crest"> Millwall</td>
+      <td>WW</td>
+      <td>3pts / 1g (3.00/g)</td>
+      <td>3pts / 1g (3.00/g)</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/348.png" alt="" class="crest"> Charlton</td>
+      <td>WW</td>
+      <td>3pts / 1g (3.00/g)</td>
+      <td>3pts / 1g (3.00/g)</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/76.png" alt="" class="crest"> Wolverhampton</td>
+      <td>DW</td>
+      <td>1pts / 1g (1.00/g)</td>
+      <td>3pts / 1g (3.00/g)</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/59.png" alt="" class="crest"> Blackburn</td>
+      <td>DW</td>
+      <td>3pts / 1g (3.00/g)</td>
+      <td>1pts / 1g (1.00/g)</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/60.png" alt="" class="crest"> Bolton</td>
+      <td>WD</td>
+      <td>3pts / 1g (3.00/g)</td>
+      <td>1pts / 1g (1.00/g)</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/72.png" alt="" class="crest"> Swansea</td>
+      <td>WD</td>
+      <td>1pts / 1g (1.00/g)</td>
+      <td>3pts / 1g (3.00/g)</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/69.png" alt="" class="crest"> QPR</td>
+      <td>WD</td>
+      <td>1pts / 1g (1.00/g)</td>
+      <td>3pts / 1g (3.00/g)</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/346.png" alt="" class="crest"> Watford</td>
+      <td>WD</td>
+      <td>3pts / 1g (3.00/g)</td>
+      <td>1pts / 1g (1.00/g)</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/74.png" alt="" class="crest"> West Brom</td>
+      <td>W</td>
+      <td>0pts / 0g (0.00/g)</td>
+      <td>3pts / 1g (3.00/g)</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/343.png" alt="" class="crest"> Middlesbrough</td>
+      <td>WL</td>
+      <td>3pts / 1g (3.00/g)</td>
+      <td>0pts / 1g (0.00/g)</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/325.png" alt="" class="crest"> Portsmouth</td>
+      <td>LW</td>
+      <td>0pts / 1g (0.00/g)</td>
+      <td>3pts / 1g (3.00/g)</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/340.png" alt="" class="crest"> Southampton</td>
+      <td>LW</td>
+      <td>3pts / 1g (3.00/g)</td>
+      <td>0pts / 1g (0.00/g)</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/356.png" alt="" class="crest"> Sheffield Utd</td>
+      <td>DD</td>
+      <td>1pts / 1g (1.00/g)</td>
+      <td>1pts / 1g (1.00/g)</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/332.png" alt="" class="crest"> Birmingham</td>
+      <td>DD</td>
+      <td>1pts / 1g (1.00/g)</td>
+      <td>1pts / 1g (1.00/g)</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/715.png" alt="" class="crest"> Cardiff</td>
+      <td>DD</td>
+      <td>1pts / 1g (1.00/g)</td>
+      <td>1pts / 1g (1.00/g)</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/404.png" alt="" class="crest"> Wrexham</td>
+      <td>DD</td>
+      <td>1pts / 1g (1.00/g)</td>
+      <td>1pts / 1g (1.00/g)</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/387.png" alt="" class="crest"> Bristol City</td>
+      <td>LD</td>
+      <td>0pts / 1g (0.00/g)</td>
+      <td>1pts / 1g (1.00/g)</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/342.png" alt="" class="crest"> Derby County</td>
+      <td>LD</td>
+      <td>1pts / 1g (1.00/g)</td>
+      <td>0pts / 1g (0.00/g)</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/328.png" alt="" class="crest"> Burnley</td>
+      <td>D</td>
+      <td>1pts / 1g (1.00/g)</td>
+      <td>0pts / 0g (0.00/g)</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/563.png" alt="" class="crest"> West Ham</td>
+      <td>DL</td>
+      <td>0pts / 1g (0.00/g)</td>
+      <td>1pts / 1g (1.00/g)</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/1081.png" alt="" class="crest"> Preston NE</td>
+      <td>LL</td>
+      <td>0pts / 1g (0.00/g)</td>
+      <td>0pts / 1g (0.00/g)</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/68.png" alt="" class="crest"> Norwich</td>
+      <td>LL</td>
+      <td>0pts / 1g (0.00/g)</td>
+      <td>0pts / 1g (0.00/g)</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/1126.png" alt="" class="crest"> Lincoln City</td>
+      <td>LL</td>
+      <td>0pts / 1g (0.00/g)</td>
+      <td>0pts / 1g (0.00/g)</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/70.png" alt="" class="crest"> Stoke</td>
+      <td>LL</td>
+      <td>0pts / 1g (0.00/g)</td>
+      <td>0pts / 1g (0.00/g)</td>
+    </tr></tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>Biggest Wins &amp; Heaviest Losses</h2>
+      <div class="explainer">Goal margin matters beyond the 3 points — a big win boosts goal difference (which breaks ties in the table) and can be a statement result against a promotion rival.</div>
+      <div style="display:flex; gap:16px; flex-wrap:wrap;">
+        <table style="flex:1; min-width:220px;">
+          <thead><tr><th class="team">Team</th><th>Biggest Win</th></tr></thead>
+          <tbody><tr><td>Millwall</td><td>3-0 vs Norwich</td></tr><tr><td>Wolverhampton</td><td>3-1 vs Preston NE</td></tr><tr><td>Southampton</td><td>3-1 vs Stoke</td></tr><tr><td>QPR</td><td>3-1 vs Portsmouth</td></tr><tr><td>Portsmouth</td><td>3-1 vs Lincoln City</td></tr></tbody>
+        </table>
+        <table style="flex:1; min-width:220px;">
+          <thead><tr><th class="team">Team</th><th>Heaviest Loss</th></tr></thead>
+          <tbody><tr><td>Norwich</td><td>0-3 vs Millwall</td></tr><tr><td>Stoke</td><td>1-3 vs Southampton</td></tr><tr><td>Preston NE</td><td>1-3 vs Wolverhampton</td></tr><tr><td>Portsmouth</td><td>1-3 vs QPR</td></tr><tr><td>Lincoln City</td><td>1-3 vs Portsmouth</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="note" style="margin-top: -8px;">Not shown: possession, shots, passing accuracy, tackles, or expected goals (xG) — these require a paid data source. Everything above is derived directly from final match scores.</div>
+  </div>
+
+  <div id="tab-player" class="tab-panel">
+    <div class="explainer">
+      <b>New to the Championship?</b> The <b>Golden Boot</b> (top scorer) is the league's most prestigious individual award. But goals alone don't capture everything a player contributes — this table adds context.
+    </div>
+    <div class="card">
+      <h2>Golden Boot Race &amp; Goal Involvements</h2>
+      <div class="explainer">
+        <b>Goals</b>: the headline number, and what decides the Golden Boot.<br>
+        <b>Assists</b>: the pass that directly leads to a goal — a measure of creativity, not just finishing.<br>
+        <b>Goal Involvements</b> (goals + assists): a fuller picture of a player's attacking output — a player with 8 goals and 10 assists is arguably more valuable than one with 12 goals and 0 assists.<br>
+        <b>Goals/Game</b>: raw totals favor players who've played more games — this rate stat levels the comparison.<br>
+        <b>Penalties</b>: shown separately since penalty goals are viewed differently from open-play goals (some fans discount them when judging a striker's true quality).
+      </div>
+      <table><thead><tr><th class="team">Player</th><th>Club</th><th>Games</th><th>Goals</th><th>Assists</th><th>Goal Inv.</th><th>Pens</th><th>Goals/Game</th></tr></thead><tbody>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/69.png" alt="" class="crest"> Ilias Chair</td>
+      <td>QPR</td>
+      <td>2</td>
+      <td class="pts">2</td>
+      <td class="">1</td>
+      <td class="">3</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/59.png" alt="" class="crest"> Andri Guðjohnsen</td>
+      <td>Blackburn</td>
+      <td>1</td>
+      <td class="pts">2</td>
+      <td class="">—</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>2.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/384.png" alt="" class="crest"> Josh Coburn</td>
+      <td>Millwall</td>
+      <td>2</td>
+      <td class="pts">2</td>
+      <td class="">—</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/343.png" alt="" class="crest"> William Lankshear</td>
+      <td>Middlesbrough</td>
+      <td>2</td>
+      <td class="pts">2</td>
+      <td class="">—</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/348.png" alt="" class="crest"> Lloyd Jones</td>
+      <td>Charlton</td>
+      <td>2</td>
+      <td class="pts">2</td>
+      <td class="">—</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/348.png" alt="" class="crest"> Tyreece Campbell</td>
+      <td>Charlton</td>
+      <td>2</td>
+      <td class="pts">2</td>
+      <td class="">—</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/340.png" alt="" class="crest"> Cyle Larin</td>
+      <td>Southampton</td>
+      <td>2</td>
+      <td class="pts">2</td>
+      <td class="">—</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/328.png" alt="" class="crest"> Zian Flemming</td>
+      <td>Burnley</td>
+      <td>1</td>
+      <td class="pts">2</td>
+      <td class="">—</td>
+      <td class="">2</td>
+      <td>1</td>
+      <td>2.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/384.png" alt="" class="crest"> Taïryk Arconte</td>
+      <td>Millwall</td>
+      <td>2</td>
+      <td class="pts">2</td>
+      <td class="">—</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/76.png" alt="" class="crest"> Fer López</td>
+      <td>Wolverhampton</td>
+      <td>1</td>
+      <td class="pts">2</td>
+      <td class="">—</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>2.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/76.png" alt="" class="crest"> Raúl Jiménez</td>
+      <td>Wolverhampton</td>
+      <td>1</td>
+      <td class="pts">1</td>
+      <td class="">1</td>
+      <td class="">2</td>
+      <td>1</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/74.png" alt="" class="crest"> Jimmy Morgan</td>
+      <td>West Brom</td>
+      <td>1</td>
+      <td class="pts">1</td>
+      <td class="">1</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/404.png" alt="" class="crest"> Kieffer Moore</td>
+      <td>Wrexham</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">1</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/715.png" alt="" class="crest"> Rubin Colwill</td>
+      <td>Cardiff</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">1</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/325.png" alt="" class="crest"> Ebou Adams</td>
+      <td>Portsmouth</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">1</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/342.png" alt="" class="crest"> Carlton Morris</td>
+      <td>Derby County</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">1</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/342.png" alt="" class="crest"> Bobby Clark</td>
+      <td>Derby County</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">1</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/404.png" alt="" class="crest"> Danny Imray</td>
+      <td>Wrexham</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">1</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/76.png" alt="" class="crest"> Marshall Munetsi</td>
+      <td>Wolverhampton</td>
+      <td>1</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/59.png" alt="" class="crest"> Sean McLoughlin</td>
+      <td>Blackburn</td>
+      <td>1</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/60.png" alt="" class="crest"> Sam Dalby</td>
+      <td>Bolton</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/60.png" alt="" class="crest"> Thierry Gale</td>
+      <td>Bolton</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/1081.png" alt="" class="crest"> Jusef Erabi</td>
+      <td>Preston NE</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/74.png" alt="" class="crest"> Aune Heggebø</td>
+      <td>West Brom</td>
+      <td>1</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/68.png" alt="" class="crest"> Mathias Kvistgaarden</td>
+      <td>Norwich</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/1126.png" alt="" class="crest"> Adam Reach</td>
+      <td>Lincoln City</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/70.png" alt="" class="crest"> Eric Bocat</td>
+      <td>Stoke</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/72.png" alt="" class="crest"> Joseph Opoku</td>
+      <td>Swansea</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/72.png" alt="" class="crest"> Adam Idah</td>
+      <td>Swansea</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/342.png" alt="" class="crest"> Samuel Szmodics</td>
+      <td>Derby County</td>
+      <td>1</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/325.png" alt="" class="crest"> Terry Devlin</td>
+      <td>Portsmouth</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/69.png" alt="" class="crest"> Koki Saito</td>
+      <td>QPR</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/346.png" alt="" class="crest"> Iker Bravo</td>
+      <td>Watford</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/346.png" alt="" class="crest"> Amin Nabizada</td>
+      <td>Watford</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/563.png" alt="" class="crest"> Max Kilman</td>
+      <td>West Ham</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/563.png" alt="" class="crest"> Manor Solomon</td>
+      <td>West Ham</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/387.png" alt="" class="crest"> Scott Twine</td>
+      <td>Bristol City</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/387.png" alt="" class="crest"> Dominic Ballard</td>
+      <td>Bristol City</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/332.png" alt="" class="crest"> Demarai Gray</td>
+      <td>Birmingham</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>1</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/325.png" alt="" class="crest"> Ryan Kavuma-McQueen</td>
+      <td>Portsmouth</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/325.png" alt="" class="crest"> Adrian Segecic</td>
+      <td>Portsmouth</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/1126.png" alt="" class="crest"> Recco Hackett-Fairchild</td>
+      <td>Lincoln City</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>1</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/384.png" alt="" class="crest"> Luke Cundle</td>
+      <td>Millwall</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/563.png" alt="" class="crest"> Joël Piroe</td>
+      <td>West Ham</td>
+      <td>1</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/715.png" alt="" class="crest"> Cian Ashford</td>
+      <td>Cardiff</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/715.png" alt="" class="crest"> Yousef Salech</td>
+      <td>Cardiff</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/76.png" alt="" class="crest"> Adam Armstrong</td>
+      <td>Wolverhampton</td>
+      <td>1</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/1081.png" alt="" class="crest"> Jordan Thompson</td>
+      <td>Preston NE</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/346.png" alt="" class="crest"> Luca Kjerrumgaard</td>
+      <td>Watford</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/343.png" alt="" class="crest"> Jeremy Sarmiento</td>
+      <td>Middlesbrough</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr></tbody></table>
+      <div class="note">Not shown: shots, expected goals (xG), key passes, dribbles, tackles, or cards — the free data source used here only tracks goals, assists, penalties, and appearances. Unlike the Premier League tracker, no working free source for Championship cards or individual clean sheets has been found yet, so those sections aren't included here.</div>
+    </div>
+
+    <div class="explainer" style="margin-top: 4px;">
+      <b>Want just one ranking at a time?</b> The sections below break the same data out individually, sorted by each specific stat.
+    </div>
+
+    <details class="stat-accordion">
+      <summary>Most Goals <span class="sub">The Golden Boot race — decided by goals alone, nothing else</span></summary>
+      <div class="accordion-body">
+        <div class="explainer"><b>Goals</b> is the headline number and what the actual Golden Boot award is decided by. It's the most-watched individual stat in the league, but it rewards finishers over creators — see "Most Goals & Assists" below for the fuller picture.</div>
+        <table><thead><tr><th class="team">Player</th><th>Club</th><th>Games</th><th>Goals</th><th>Assists</th><th>Goal Inv.</th><th>Pens</th><th>Goals/Game</th></tr></thead><tbody>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/69.png" alt="" class="crest"> Ilias Chair</td>
+      <td>QPR</td>
+      <td>2</td>
+      <td class="pts">2</td>
+      <td class="">1</td>
+      <td class="">3</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/59.png" alt="" class="crest"> Andri Guðjohnsen</td>
+      <td>Blackburn</td>
+      <td>1</td>
+      <td class="pts">2</td>
+      <td class="">—</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>2.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/384.png" alt="" class="crest"> Josh Coburn</td>
+      <td>Millwall</td>
+      <td>2</td>
+      <td class="pts">2</td>
+      <td class="">—</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/343.png" alt="" class="crest"> William Lankshear</td>
+      <td>Middlesbrough</td>
+      <td>2</td>
+      <td class="pts">2</td>
+      <td class="">—</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/348.png" alt="" class="crest"> Lloyd Jones</td>
+      <td>Charlton</td>
+      <td>2</td>
+      <td class="pts">2</td>
+      <td class="">—</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/348.png" alt="" class="crest"> Tyreece Campbell</td>
+      <td>Charlton</td>
+      <td>2</td>
+      <td class="pts">2</td>
+      <td class="">—</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/340.png" alt="" class="crest"> Cyle Larin</td>
+      <td>Southampton</td>
+      <td>2</td>
+      <td class="pts">2</td>
+      <td class="">—</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/328.png" alt="" class="crest"> Zian Flemming</td>
+      <td>Burnley</td>
+      <td>1</td>
+      <td class="pts">2</td>
+      <td class="">—</td>
+      <td class="">2</td>
+      <td>1</td>
+      <td>2.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/384.png" alt="" class="crest"> Taïryk Arconte</td>
+      <td>Millwall</td>
+      <td>2</td>
+      <td class="pts">2</td>
+      <td class="">—</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/76.png" alt="" class="crest"> Fer López</td>
+      <td>Wolverhampton</td>
+      <td>1</td>
+      <td class="pts">2</td>
+      <td class="">—</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>2.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/76.png" alt="" class="crest"> Raúl Jiménez</td>
+      <td>Wolverhampton</td>
+      <td>1</td>
+      <td class="pts">1</td>
+      <td class="">1</td>
+      <td class="">2</td>
+      <td>1</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/74.png" alt="" class="crest"> Jimmy Morgan</td>
+      <td>West Brom</td>
+      <td>1</td>
+      <td class="pts">1</td>
+      <td class="">1</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/404.png" alt="" class="crest"> Kieffer Moore</td>
+      <td>Wrexham</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">1</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/715.png" alt="" class="crest"> Rubin Colwill</td>
+      <td>Cardiff</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">1</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/325.png" alt="" class="crest"> Ebou Adams</td>
+      <td>Portsmouth</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">1</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/342.png" alt="" class="crest"> Carlton Morris</td>
+      <td>Derby County</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">1</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/342.png" alt="" class="crest"> Bobby Clark</td>
+      <td>Derby County</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">1</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/404.png" alt="" class="crest"> Danny Imray</td>
+      <td>Wrexham</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">1</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/76.png" alt="" class="crest"> Marshall Munetsi</td>
+      <td>Wolverhampton</td>
+      <td>1</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/59.png" alt="" class="crest"> Sean McLoughlin</td>
+      <td>Blackburn</td>
+      <td>1</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/60.png" alt="" class="crest"> Sam Dalby</td>
+      <td>Bolton</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/60.png" alt="" class="crest"> Thierry Gale</td>
+      <td>Bolton</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/1081.png" alt="" class="crest"> Jusef Erabi</td>
+      <td>Preston NE</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/74.png" alt="" class="crest"> Aune Heggebø</td>
+      <td>West Brom</td>
+      <td>1</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/68.png" alt="" class="crest"> Mathias Kvistgaarden</td>
+      <td>Norwich</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/1126.png" alt="" class="crest"> Adam Reach</td>
+      <td>Lincoln City</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/70.png" alt="" class="crest"> Eric Bocat</td>
+      <td>Stoke</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/72.png" alt="" class="crest"> Joseph Opoku</td>
+      <td>Swansea</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/72.png" alt="" class="crest"> Adam Idah</td>
+      <td>Swansea</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/342.png" alt="" class="crest"> Samuel Szmodics</td>
+      <td>Derby County</td>
+      <td>1</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/325.png" alt="" class="crest"> Terry Devlin</td>
+      <td>Portsmouth</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/69.png" alt="" class="crest"> Koki Saito</td>
+      <td>QPR</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/346.png" alt="" class="crest"> Iker Bravo</td>
+      <td>Watford</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/346.png" alt="" class="crest"> Amin Nabizada</td>
+      <td>Watford</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/563.png" alt="" class="crest"> Max Kilman</td>
+      <td>West Ham</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/563.png" alt="" class="crest"> Manor Solomon</td>
+      <td>West Ham</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/387.png" alt="" class="crest"> Scott Twine</td>
+      <td>Bristol City</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/387.png" alt="" class="crest"> Dominic Ballard</td>
+      <td>Bristol City</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/332.png" alt="" class="crest"> Demarai Gray</td>
+      <td>Birmingham</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>1</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/325.png" alt="" class="crest"> Ryan Kavuma-McQueen</td>
+      <td>Portsmouth</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/325.png" alt="" class="crest"> Adrian Segecic</td>
+      <td>Portsmouth</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/1126.png" alt="" class="crest"> Recco Hackett-Fairchild</td>
+      <td>Lincoln City</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>1</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/384.png" alt="" class="crest"> Luke Cundle</td>
+      <td>Millwall</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/563.png" alt="" class="crest"> Joël Piroe</td>
+      <td>West Ham</td>
+      <td>1</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/715.png" alt="" class="crest"> Cian Ashford</td>
+      <td>Cardiff</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/715.png" alt="" class="crest"> Yousef Salech</td>
+      <td>Cardiff</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/76.png" alt="" class="crest"> Adam Armstrong</td>
+      <td>Wolverhampton</td>
+      <td>1</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/1081.png" alt="" class="crest"> Jordan Thompson</td>
+      <td>Preston NE</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/346.png" alt="" class="crest"> Luca Kjerrumgaard</td>
+      <td>Watford</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/343.png" alt="" class="crest"> Jeremy Sarmiento</td>
+      <td>Middlesbrough</td>
+      <td>2</td>
+      <td class="pts">1</td>
+      <td class="">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr></tbody></table>
+      </div>
+    </details>
+
+    <details class="stat-accordion">
+      <summary>Most Assists <span class="sub">Who's creating goals for others, not just scoring them</span></summary>
+      <div class="accordion-body">
+        <div class="explainer"><b>Assists</b> credit the pass (or occasionally the touch) that directly leads to a goal. It's the clearest single measure of creativity — a player can be hugely valuable to a team's attack without scoring much themselves.</div>
+        
+        <table><thead><tr><th class="team">Player</th><th>Club</th><th>Games</th><th>Goals</th><th>Assists</th><th>Goal Inv.</th><th>Pens</th><th>Goals/Game</th></tr></thead><tbody>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/69.png" alt="" class="crest"> Ilias Chair</td>
+      <td>QPR</td>
+      <td>2</td>
+      <td class="">2</td>
+      <td class="pts">1</td>
+      <td class="">3</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/76.png" alt="" class="crest"> Raúl Jiménez</td>
+      <td>Wolverhampton</td>
+      <td>1</td>
+      <td class="">1</td>
+      <td class="pts">1</td>
+      <td class="">2</td>
+      <td>1</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/74.png" alt="" class="crest"> Jimmy Morgan</td>
+      <td>West Brom</td>
+      <td>1</td>
+      <td class="">1</td>
+      <td class="pts">1</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/404.png" alt="" class="crest"> Kieffer Moore</td>
+      <td>Wrexham</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="pts">1</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/715.png" alt="" class="crest"> Rubin Colwill</td>
+      <td>Cardiff</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="pts">1</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/325.png" alt="" class="crest"> Ebou Adams</td>
+      <td>Portsmouth</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="pts">1</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/342.png" alt="" class="crest"> Carlton Morris</td>
+      <td>Derby County</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="pts">1</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/342.png" alt="" class="crest"> Bobby Clark</td>
+      <td>Derby County</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="pts">1</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/404.png" alt="" class="crest"> Danny Imray</td>
+      <td>Wrexham</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="pts">1</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/59.png" alt="" class="crest"> Andri Guðjohnsen</td>
+      <td>Blackburn</td>
+      <td>1</td>
+      <td class="">2</td>
+      <td class="pts">—</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>2.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/384.png" alt="" class="crest"> Josh Coburn</td>
+      <td>Millwall</td>
+      <td>2</td>
+      <td class="">2</td>
+      <td class="pts">—</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/343.png" alt="" class="crest"> William Lankshear</td>
+      <td>Middlesbrough</td>
+      <td>2</td>
+      <td class="">2</td>
+      <td class="pts">—</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/348.png" alt="" class="crest"> Lloyd Jones</td>
+      <td>Charlton</td>
+      <td>2</td>
+      <td class="">2</td>
+      <td class="pts">—</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/348.png" alt="" class="crest"> Tyreece Campbell</td>
+      <td>Charlton</td>
+      <td>2</td>
+      <td class="">2</td>
+      <td class="pts">—</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/340.png" alt="" class="crest"> Cyle Larin</td>
+      <td>Southampton</td>
+      <td>2</td>
+      <td class="">2</td>
+      <td class="pts">—</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/328.png" alt="" class="crest"> Zian Flemming</td>
+      <td>Burnley</td>
+      <td>1</td>
+      <td class="">2</td>
+      <td class="pts">—</td>
+      <td class="">2</td>
+      <td>1</td>
+      <td>2.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/384.png" alt="" class="crest"> Taïryk Arconte</td>
+      <td>Millwall</td>
+      <td>2</td>
+      <td class="">2</td>
+      <td class="pts">—</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/76.png" alt="" class="crest"> Fer López</td>
+      <td>Wolverhampton</td>
+      <td>1</td>
+      <td class="">2</td>
+      <td class="pts">—</td>
+      <td class="">2</td>
+      <td>—</td>
+      <td>2.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/76.png" alt="" class="crest"> Marshall Munetsi</td>
+      <td>Wolverhampton</td>
+      <td>1</td>
+      <td class="">1</td>
+      <td class="pts">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/59.png" alt="" class="crest"> Sean McLoughlin</td>
+      <td>Blackburn</td>
+      <td>1</td>
+      <td class="">1</td>
+      <td class="pts">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/60.png" alt="" class="crest"> Sam Dalby</td>
+      <td>Bolton</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="pts">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/60.png" alt="" class="crest"> Thierry Gale</td>
+      <td>Bolton</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="pts">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/1081.png" alt="" class="crest"> Jusef Erabi</td>
+      <td>Preston NE</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="pts">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/74.png" alt="" class="crest"> Aune Heggebø</td>
+      <td>West Brom</td>
+      <td>1</td>
+      <td class="">1</td>
+      <td class="pts">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/68.png" alt="" class="crest"> Mathias Kvistgaarden</td>
+      <td>Norwich</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="pts">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/1126.png" alt="" class="crest"> Adam Reach</td>
+      <td>Lincoln City</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="pts">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/70.png" alt="" class="crest"> Eric Bocat</td>
+      <td>Stoke</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="pts">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/72.png" alt="" class="crest"> Joseph Opoku</td>
+      <td>Swansea</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="pts">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/72.png" alt="" class="crest"> Adam Idah</td>
+      <td>Swansea</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="pts">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/342.png" alt="" class="crest"> Samuel Szmodics</td>
+      <td>Derby County</td>
+      <td>1</td>
+      <td class="">1</td>
+      <td class="pts">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/325.png" alt="" class="crest"> Terry Devlin</td>
+      <td>Portsmouth</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="pts">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/69.png" alt="" class="crest"> Koki Saito</td>
+      <td>QPR</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="pts">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/346.png" alt="" class="crest"> Iker Bravo</td>
+      <td>Watford</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="pts">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/346.png" alt="" class="crest"> Amin Nabizada</td>
+      <td>Watford</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="pts">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/563.png" alt="" class="crest"> Max Kilman</td>
+      <td>West Ham</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="pts">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/563.png" alt="" class="crest"> Manor Solomon</td>
+      <td>West Ham</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="pts">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/387.png" alt="" class="crest"> Scott Twine</td>
+      <td>Bristol City</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="pts">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/387.png" alt="" class="crest"> Dominic Ballard</td>
+      <td>Bristol City</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="pts">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/332.png" alt="" class="crest"> Demarai Gray</td>
+      <td>Birmingham</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="pts">—</td>
+      <td class="">1</td>
+      <td>1</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/325.png" alt="" class="crest"> Ryan Kavuma-McQueen</td>
+      <td>Portsmouth</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="pts">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/325.png" alt="" class="crest"> Adrian Segecic</td>
+      <td>Portsmouth</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="pts">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/1126.png" alt="" class="crest"> Recco Hackett-Fairchild</td>
+      <td>Lincoln City</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="pts">—</td>
+      <td class="">1</td>
+      <td>1</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/384.png" alt="" class="crest"> Luke Cundle</td>
+      <td>Millwall</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="pts">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/563.png" alt="" class="crest"> Joël Piroe</td>
+      <td>West Ham</td>
+      <td>1</td>
+      <td class="">1</td>
+      <td class="pts">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/715.png" alt="" class="crest"> Cian Ashford</td>
+      <td>Cardiff</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="pts">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/715.png" alt="" class="crest"> Yousef Salech</td>
+      <td>Cardiff</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="pts">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/76.png" alt="" class="crest"> Adam Armstrong</td>
+      <td>Wolverhampton</td>
+      <td>1</td>
+      <td class="">1</td>
+      <td class="pts">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/1081.png" alt="" class="crest"> Jordan Thompson</td>
+      <td>Preston NE</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="pts">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/346.png" alt="" class="crest"> Luca Kjerrumgaard</td>
+      <td>Watford</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="pts">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/343.png" alt="" class="crest"> Jeremy Sarmiento</td>
+      <td>Middlesbrough</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="pts">—</td>
+      <td class="">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr></tbody></table>
+      </div>
+    </details>
+
+    <details class="stat-accordion">
+      <summary>Most Goals &amp; Assists <span class="sub">Total attacking output — often a better "who's actually best" ranking than goals alone</span></summary>
+      <div class="accordion-body">
+        <div class="explainer"><b>Goal Involvements</b> (goals + assists) gives a fuller picture of a player's attacking output than the Golden Boot table does on its own. A player with 8 goals and 10 assists has been directly involved in 18 goals — arguably more valuable to their team than someone with 12 goals and 0 assists, even though the latter would top the pure scoring chart.</div>
+        <table><thead><tr><th class="team">Player</th><th>Club</th><th>Games</th><th>Goals</th><th>Assists</th><th>Goal Inv.</th><th>Pens</th><th>Goals/Game</th></tr></thead><tbody>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/69.png" alt="" class="crest"> Ilias Chair</td>
+      <td>QPR</td>
+      <td>2</td>
+      <td class="">2</td>
+      <td class="">1</td>
+      <td class="pts">3</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/59.png" alt="" class="crest"> Andri Guðjohnsen</td>
+      <td>Blackburn</td>
+      <td>1</td>
+      <td class="">2</td>
+      <td class="">—</td>
+      <td class="pts">2</td>
+      <td>—</td>
+      <td>2.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/384.png" alt="" class="crest"> Josh Coburn</td>
+      <td>Millwall</td>
+      <td>2</td>
+      <td class="">2</td>
+      <td class="">—</td>
+      <td class="pts">2</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/343.png" alt="" class="crest"> William Lankshear</td>
+      <td>Middlesbrough</td>
+      <td>2</td>
+      <td class="">2</td>
+      <td class="">—</td>
+      <td class="pts">2</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/348.png" alt="" class="crest"> Lloyd Jones</td>
+      <td>Charlton</td>
+      <td>2</td>
+      <td class="">2</td>
+      <td class="">—</td>
+      <td class="pts">2</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/348.png" alt="" class="crest"> Tyreece Campbell</td>
+      <td>Charlton</td>
+      <td>2</td>
+      <td class="">2</td>
+      <td class="">—</td>
+      <td class="pts">2</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/340.png" alt="" class="crest"> Cyle Larin</td>
+      <td>Southampton</td>
+      <td>2</td>
+      <td class="">2</td>
+      <td class="">—</td>
+      <td class="pts">2</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/328.png" alt="" class="crest"> Zian Flemming</td>
+      <td>Burnley</td>
+      <td>1</td>
+      <td class="">2</td>
+      <td class="">—</td>
+      <td class="pts">2</td>
+      <td>1</td>
+      <td>2.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/384.png" alt="" class="crest"> Taïryk Arconte</td>
+      <td>Millwall</td>
+      <td>2</td>
+      <td class="">2</td>
+      <td class="">—</td>
+      <td class="pts">2</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/76.png" alt="" class="crest"> Fer López</td>
+      <td>Wolverhampton</td>
+      <td>1</td>
+      <td class="">2</td>
+      <td class="">—</td>
+      <td class="pts">2</td>
+      <td>—</td>
+      <td>2.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/76.png" alt="" class="crest"> Raúl Jiménez</td>
+      <td>Wolverhampton</td>
+      <td>1</td>
+      <td class="">1</td>
+      <td class="">1</td>
+      <td class="pts">2</td>
+      <td>1</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/74.png" alt="" class="crest"> Jimmy Morgan</td>
+      <td>West Brom</td>
+      <td>1</td>
+      <td class="">1</td>
+      <td class="">1</td>
+      <td class="pts">2</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/404.png" alt="" class="crest"> Kieffer Moore</td>
+      <td>Wrexham</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="">1</td>
+      <td class="pts">2</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/715.png" alt="" class="crest"> Rubin Colwill</td>
+      <td>Cardiff</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="">1</td>
+      <td class="pts">2</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/325.png" alt="" class="crest"> Ebou Adams</td>
+      <td>Portsmouth</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="">1</td>
+      <td class="pts">2</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/342.png" alt="" class="crest"> Carlton Morris</td>
+      <td>Derby County</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="">1</td>
+      <td class="pts">2</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/342.png" alt="" class="crest"> Bobby Clark</td>
+      <td>Derby County</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="">1</td>
+      <td class="pts">2</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/404.png" alt="" class="crest"> Danny Imray</td>
+      <td>Wrexham</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="">1</td>
+      <td class="pts">2</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/76.png" alt="" class="crest"> Marshall Munetsi</td>
+      <td>Wolverhampton</td>
+      <td>1</td>
+      <td class="">1</td>
+      <td class="">—</td>
+      <td class="pts">1</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/59.png" alt="" class="crest"> Sean McLoughlin</td>
+      <td>Blackburn</td>
+      <td>1</td>
+      <td class="">1</td>
+      <td class="">—</td>
+      <td class="pts">1</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/60.png" alt="" class="crest"> Sam Dalby</td>
+      <td>Bolton</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="">—</td>
+      <td class="pts">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/60.png" alt="" class="crest"> Thierry Gale</td>
+      <td>Bolton</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="">—</td>
+      <td class="pts">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/1081.png" alt="" class="crest"> Jusef Erabi</td>
+      <td>Preston NE</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="">—</td>
+      <td class="pts">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/74.png" alt="" class="crest"> Aune Heggebø</td>
+      <td>West Brom</td>
+      <td>1</td>
+      <td class="">1</td>
+      <td class="">—</td>
+      <td class="pts">1</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/68.png" alt="" class="crest"> Mathias Kvistgaarden</td>
+      <td>Norwich</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="">—</td>
+      <td class="pts">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/1126.png" alt="" class="crest"> Adam Reach</td>
+      <td>Lincoln City</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="">—</td>
+      <td class="pts">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/70.png" alt="" class="crest"> Eric Bocat</td>
+      <td>Stoke</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="">—</td>
+      <td class="pts">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/72.png" alt="" class="crest"> Joseph Opoku</td>
+      <td>Swansea</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="">—</td>
+      <td class="pts">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/72.png" alt="" class="crest"> Adam Idah</td>
+      <td>Swansea</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="">—</td>
+      <td class="pts">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/342.png" alt="" class="crest"> Samuel Szmodics</td>
+      <td>Derby County</td>
+      <td>1</td>
+      <td class="">1</td>
+      <td class="">—</td>
+      <td class="pts">1</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/325.png" alt="" class="crest"> Terry Devlin</td>
+      <td>Portsmouth</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="">—</td>
+      <td class="pts">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/69.png" alt="" class="crest"> Koki Saito</td>
+      <td>QPR</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="">—</td>
+      <td class="pts">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/346.png" alt="" class="crest"> Iker Bravo</td>
+      <td>Watford</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="">—</td>
+      <td class="pts">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/346.png" alt="" class="crest"> Amin Nabizada</td>
+      <td>Watford</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="">—</td>
+      <td class="pts">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/563.png" alt="" class="crest"> Max Kilman</td>
+      <td>West Ham</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="">—</td>
+      <td class="pts">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/563.png" alt="" class="crest"> Manor Solomon</td>
+      <td>West Ham</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="">—</td>
+      <td class="pts">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/387.png" alt="" class="crest"> Scott Twine</td>
+      <td>Bristol City</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="">—</td>
+      <td class="pts">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/387.png" alt="" class="crest"> Dominic Ballard</td>
+      <td>Bristol City</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="">—</td>
+      <td class="pts">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/332.png" alt="" class="crest"> Demarai Gray</td>
+      <td>Birmingham</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="">—</td>
+      <td class="pts">1</td>
+      <td>1</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/325.png" alt="" class="crest"> Ryan Kavuma-McQueen</td>
+      <td>Portsmouth</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="">—</td>
+      <td class="pts">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/325.png" alt="" class="crest"> Adrian Segecic</td>
+      <td>Portsmouth</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="">—</td>
+      <td class="pts">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/1126.png" alt="" class="crest"> Recco Hackett-Fairchild</td>
+      <td>Lincoln City</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="">—</td>
+      <td class="pts">1</td>
+      <td>1</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/384.png" alt="" class="crest"> Luke Cundle</td>
+      <td>Millwall</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="">—</td>
+      <td class="pts">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/563.png" alt="" class="crest"> Joël Piroe</td>
+      <td>West Ham</td>
+      <td>1</td>
+      <td class="">1</td>
+      <td class="">—</td>
+      <td class="pts">1</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/715.png" alt="" class="crest"> Cian Ashford</td>
+      <td>Cardiff</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="">—</td>
+      <td class="pts">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/715.png" alt="" class="crest"> Yousef Salech</td>
+      <td>Cardiff</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="">—</td>
+      <td class="pts">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/76.png" alt="" class="crest"> Adam Armstrong</td>
+      <td>Wolverhampton</td>
+      <td>1</td>
+      <td class="">1</td>
+      <td class="">—</td>
+      <td class="pts">1</td>
+      <td>—</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/1081.png" alt="" class="crest"> Jordan Thompson</td>
+      <td>Preston NE</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="">—</td>
+      <td class="pts">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/346.png" alt="" class="crest"> Luca Kjerrumgaard</td>
+      <td>Watford</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="">—</td>
+      <td class="pts">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td class="team"><img src="https://crests.football-data.org/343.png" alt="" class="crest"> Jeremy Sarmiento</td>
+      <td>Middlesbrough</td>
+      <td>2</td>
+      <td class="">1</td>
+      <td class="">—</td>
+      <td class="pts">1</td>
+      <td>—</td>
+      <td>0.50</td>
+    </tr></tbody></table>
+      </div>
+    </details>
+
+    <div class="note">Also shown in each table: <b>Penalties</b> (shown separately since penalty goals are viewed differently from open-play ones), and <b>Goals/Game</b> (a rate stat, since raw totals favor players who've played more games).</div>
+  </div>
+
+  <footer>Data: football-data.org · Rebuilt periodically, not live-updating</footer>
+</div>
+<script>
+function showTab(name) {
+  document.querySelectorAll('.tab-panel').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
